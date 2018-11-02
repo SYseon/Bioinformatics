@@ -11,7 +11,7 @@ import numpy as np
 class Preprocessor:
     def __init__(self):
         self.alg_list =  ['None','standard_norm', 'min-max']
-
+        self.preprocessor_name = None
     def preprocessing(self, alg_idx, tr_data, ts_data):
         """
         for i in range(tr_data.shape[1]):
@@ -20,10 +20,15 @@ class Preprocessor:
             ts_data.T[i]=np.where(np.isnan(ts_data.T[i]) and ts_data.T[i]==ts_data.T[i].astype(int),np.mean(ts_data.T[i]), ts_data.T[i])
         """
         if alg_idx == 0:
+            self.preprocessor_name = self.alg_list[0]
             return tr_data, ts_data
         elif alg_idx == 1:
+            
+            self.preprocessor_name = self.alg_list[1]
             return self.standard_normalization(tr_data, ts_data)
         elif alg_idx ==2:
+            
+            self.preprocessor_name = self.alg_list[2]
             return self.min_max(tr_data, ts_data)
 
 

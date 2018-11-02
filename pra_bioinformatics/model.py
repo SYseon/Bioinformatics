@@ -24,7 +24,8 @@ class Model:
         self.preprocessor = Preprocessor()
         self.classifier = Classifier()
         self.fselector = FSelector()
-
+        
+        self.calg_idx = 0
         self.file_set = False
 
     def set_tr_file(self, file_name):
@@ -71,7 +72,8 @@ class Model:
         return self.classifier.get_result(alg_idx, self.pre_tr_data, self.tr_ans, self.pre_ts_data, self.ts_ans)
 
     def set_fs_data(self, alg_idx):
-        self.pre_tr_data, self.pre_ts_data = self.fselector.start_fs(alg_idx, self.pre_tr_data, self.tr_ans, self.pre_ts_data)
+        self.pre_tr_data, self.pre_ts_data = self.fselector.start_fs(alg_idx, self.pre_tr_data, self.tr_ans, self.pre_ts_data, self.ts_ans, self.calg_idx)
+        
 
     def set_fs_size(self, fs_size):
         self.fselector.set_fs_size(fs_size)

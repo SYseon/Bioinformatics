@@ -19,19 +19,25 @@ class Classifier:
 
     def __init__(self):
         self.alg_list = ['Naive_bayes', 'k-Nearest Neighbor', 'Decision Tree', 'SVM', 'Random Forest', 'Logistic Regression']
-
+        self.classifier_name = None
     def predict(self, alg_idx, tr_data, tr_ans, ts_data):
         if alg_idx == 0:
+            self.classifier_name = self.alg_list[0]
             return self.nb_classifier(tr_data, tr_ans, ts_data)
         elif alg_idx == 1:
+            self.classifier_name = self.alg_list[1]
             return self.knn_classifier(tr_data, tr_ans, ts_data)
         elif alg_idx == 2:
+            self.classifier_name = self.alg_list[2]
             return self.dt_classifier(tr_data, tr_ans, ts_data)
         elif alg_idx == 3:
+            self.classifier_name = self.alg_list[3]
             return self.svm_classifier(tr_data, tr_ans, ts_data)
         elif alg_idx == 4:
+            self.classifier_name = self.alg_list[4]
             return self.rf_classifier(tr_data, tr_ans, ts_data)
         elif alg_idx == 5:
+            self.classifier_name = self.alg_list[5]
             return self.lgregression_classifier(tr_data, tr_ans, ts_data)
         
     def nb_classifier(self, tr_data, tr_ans, ts_data):

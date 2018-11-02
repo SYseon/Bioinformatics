@@ -4,7 +4,7 @@ from tkinter.ttk import *
 from tkinter.filedialog import askopenfilename
 from model import *
 from utilfunc import *
-
+import toexcel
 
 class MyFrame(Frame):
 
@@ -199,8 +199,10 @@ class MyFrame(Frame):
         precision = np.around(precision, 2)
         recall = np.around(recall, 2)
         fbeta_score = np.around(fbeta_score, 2)
-        support = np.around(support, 2)
-
+        support = np.around(support, 2)  
+        toexcel.set_value(self.tr_file_name ,self.model.preprocessor.preprocessor_name, self.model.fselector.fselector_name, self.model.classifier.classifier_name, accuracy, precision, recall, fbeta_score, support)
+    
+        
         self.accuracy_label.config(text=str(accuracy))
         self.accuracy_label.config(width=len(str(accuracy)))
         self.precision_label.config(text=str(precision))
