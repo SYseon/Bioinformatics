@@ -17,7 +17,7 @@ class MyFrame(Frame):
         self.master = master
         self.master.title("Biomarker Project")
         self.pack(fill=BOTH, expand=True)
-
+        self.fs_size = 0
         # tr_open_frame
         tr_open_frame = Frame(self)
         tr_open_frame.pack(fill=X)
@@ -140,6 +140,7 @@ class MyFrame(Frame):
         self.confmat_label = Label(result_frame3, text="0", width=10)
         self.confmat_label.pack(side=LEFT, anchor=NW, padx=10, pady=10)
 
+        
 
     def tr_file_open(self):
         self.tr_file_name = askopenfilename(title="Choose your data file")
@@ -147,7 +148,8 @@ class MyFrame(Frame):
         self.model.set_tr_file(self.tr_file_name)
         self.set_data_type(self.model.get_nparr_train())
         self.set_class_combobox()
-
+        toexcel.excel_init(self.tr_file_name)
+        
     def ts_file_open(self):
         self.ts_file_name = askopenfilename(title="Choose your data file")
         self.ts_entry_name.config(text=self.ts_file_name)
@@ -181,15 +183,12 @@ class MyFrame(Frame):
 
     def set_data_fs(self):
         if self.fs_combobox.current()==0 or self.fs_combobox.current()==1:
-            fs_size = simpledialog.askinteger("Feature 개수", "몇 개를 선택하시겠습니까?", minvalue=1, maxvalue=len(self.model.fea_list))
-        
+            self.fs_size = simpledialog.askinteger("Feature 개수", "몇 개를 선택하시겠습니까?", minvalue=1, maxvalue=len(self.model.fea_list))
+            
         elif self.fs_combobox.current()==3 and not self.classifier_combobox.current() in self.model.fselector.get_alg_list():
-            fs_cf = simpledialog.Listbox
+            self.fs_size=0
         
-        else:
-            fs_size=0
-        
-        self.model.set_fs_size(fs_size)
+        self.model.set_fs_size(self.fs_size)
         self.model.set_fs_data(self.fs_combobox.current())
     
         
@@ -200,7 +199,8 @@ class MyFrame(Frame):
         recall = np.around(recall, 2)
         fbeta_score = np.around(fbeta_score, 2)
         support = np.around(support, 2)  
-        toexcel.set_value(self.tr_file_name ,self.model.preprocessor.preprocessor_name, self.model.fselector.fselector_name, self.model.classifier.classifier_name, accuracy, precision, recall, fbeta_score, support)
+        
+        toexcel.set_value(self.model.preprocessor.alg_list[0], self.model.fselector.fselector_name, self.fs_size, self.model.classifier.classifier_name, self.model.classifier.k, accuracy, precision, recall, fbeta_score, support, conf_mat)
     
         
         self.accuracy_label.config(text=str(accuracy))

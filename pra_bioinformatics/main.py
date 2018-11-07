@@ -5,7 +5,6 @@ import fselector
 import classifier
 
 def main():
-    toexcel.excel_init()
     model = Model()
     root = Tk()
     root.geometry("800x550+100+100")

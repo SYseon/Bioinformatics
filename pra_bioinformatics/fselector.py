@@ -1,14 +1,17 @@
 import numpy as np
 from sklearn.decomposition import PCA
 from sklearn.metrics import mutual_info_score
+import wrapper as wp
+
 
 class FSelector:
     alg_list = None
-    fs_size = 0
+    
 
     def __init__(self):
         self.alg_list = ['PCC', 'PCA', 'filter', 'Wrapper']
         self.fselector_name = None
+        self.fs_size = 0
     def start_fs(self, alg_idx, tr_data, tr_ans, ts_data, ts_ans, calg_idx):
         if alg_idx == 0:
             self.fselector_name = self.alg_list[0]
@@ -21,7 +24,7 @@ class FSelector:
             return self._filter(tr_data, ts_data)
         elif alg_idx == 3:
             self.fselector_name = self.alg_list[3]
-            return self.wrapper(tr_data, tr_ans, ts_data, ts_ans, calg_idx)
+            return self.wrapper(tr_data, tr_ans, ts_data, ts_ans)
 
     def pcc(self, tr_data, tr_ans, ts_data):
         corr_array = []
@@ -54,21 +57,11 @@ class FSelector:
         for i in range (data.shape[1]):
             for j in range (i):
                 np.append(index, np.where(mutual_info_score(data.T[i], data.T[j])!=1, j, None))
-                
-                
-        return np.take(data, index)
- 
 
-    def wrapper(self, tr_data, tr_ans, ts_data, ts_ans, calg_idx):
-        index = np.empty(0)
-        classify = classifier.Classifier()
-        
-        for i in range(tr_data.shape[1]):
-            for j in range(tr_data.shape[1]-i):
-                np.append(index, j)
-                classify.get_result(calg_idx, np.take(tr_data.T, index), tr_ans, ts_data, ts_ans)
+        return np.take(data, index)
     
-                
+    def wrapper(self, tr_data, tr_ans, ts_data, ts_ans):
+        return wp.wrapper(tr_data, tr_ans, ts_data, ts_ans)
 
     
         

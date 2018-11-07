@@ -14,12 +14,14 @@ import numpy as np
 
 
 
+
 class Classifier:
     alg_list = []
-
+    
     def __init__(self):
         self.alg_list = ['Naive_bayes', 'k-Nearest Neighbor', 'Decision Tree', 'SVM', 'Random Forest', 'Logistic Regression']
         self.classifier_name = None
+        self.k = 0
     def predict(self, alg_idx, tr_data, tr_ans, ts_data):
         if alg_idx == 0:
             self.classifier_name = self.alg_list[0]
@@ -74,8 +76,8 @@ class Classifier:
         
         
     def knn_classifier(self, tr_data, tr_ans, ts_data):
-        k = simpledialog.askinteger("파라미터 세팅", "k의 값을 결정하세요")
-        nbrs = KNeighborsClassifier(n_neighbors=k)
+        self.k = simpledialog.askinteger("파라미터 세팅", "k의 값을 결정하세요")
+        nbrs = KNeighborsClassifier(n_neighbors=self.k)
         train_mdl = nbrs.fit(tr_data, tr_ans)
 
         test_pred = train_mdl.predict(ts_data)
