@@ -168,12 +168,18 @@ class MyFrame(Frame):
 
     def set_class_combobox(self):
         self.class_combobox['values'] = self.model.get_fea_list()
+        
+        
+        
 
     def set_answer_idx(self):
         self.model.set_answer(self.class_combobox.current())
         tkinter.messagebox.showinfo("Zero Var Delete", "분산이 0인 특징을 제거합니다.")
         self.model.remove_var_zero()
         self.set_class_combobox()
+        
+      
+            
 
     def set_data_preprocess(self):
         if self.model.file_set:

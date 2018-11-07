@@ -77,3 +77,20 @@ class Model:
 
     def set_fs_size(self, fs_size):
         self.fselector.set_fs_size(fs_size)
+        
+    for prepro_num in range(3):
+        self.pre_tr_data, self.pre_ts_data = self.preprocessor.preprocessing(prepro_num, self.tr_data, self.ts_data)
+        prepro_name = self.preprocessor.alg_list[prepro_num]
+        for fselector_num in range(4):
+            self.pre_tr_data, self.pre_ts_data = self.fselector.start_fs(fselector_num, self.pre_tr_data, self.tr_ans, self.pre_ts_data, self.ts_ans, self.calg_idx)
+            fselector_name = self.fselector.alg_list[fselector_num]
+            fs_size = 3
+            for classifier_num in range(6):
+                accuracy, precision, recall, fbeta_score, support, conf_mat = self.model.start_classify(classifier_num)
+                accuracy = np.around(accuracy, 2)
+                precision = np.around(precision, 2)
+                recall = np.around(recall, 2)
+                fbeta_score = np.around(fbeta_score, 2)
+                support = np.around(support, 2)  
+                
+                toexcel.set_value(self.model.preprocessor.alg_list[0], self.model.fselector.fselector_name, self.fs_size, self.model.classifier.classifier_name, self.model.classifier.k, accuracy, precision, recall, fbeta_score, support, conf_mat)
